@@ -11,7 +11,7 @@ Output:
 from sys import argv
 from operator import add
 import re
-import json
+import simplejson
 
 
 def parse(source):
@@ -44,13 +44,13 @@ def parse(source):
             del cur
 
     # flattens the array conf
-    return reduce(add, conf)
+    return reduce(add, conf)[1::2]
 
 
 if __name__ == "__main__":
     FILE = None if len(argv) == 1 else argv[1]
     if FILE is not None:
         with open(FILE) as stream, open("out/parse.out", "w+") as out:
-            out.write(json.dumps(parse(stream), indent=4, sort_keys=False))
+            out.write(simplejson.dumps(parse(stream), indent=4, sort_keys=False))
     else:
         print "Parse method requires an intput stream"
